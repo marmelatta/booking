@@ -4,7 +4,7 @@ import { ID } from '../hotels.service';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model } from 'mongoose';
 
-interface SearchRoomsParams {
+export interface SearchRoomsParams {
   limit: number;
   offset: number;
   title: string;
@@ -19,9 +19,10 @@ interface IHotelRoomService {
 }
 
 @Injectable()
-export class HotelRoomsService implements IHotelRoomService{
+export class HotelRoomsService implements IHotelRoomService {
   constructor(
-    @InjectModel(HotelRoom.name) private HotelRoomModel: Model<HotelRoomDocument>,
+    @InjectModel(HotelRoom.name)
+    private HotelRoomModel: Model<HotelRoomDocument>,
     @InjectConnection() private connection: Connection,
   ) {}
 

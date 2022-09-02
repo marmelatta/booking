@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Hotel, HotelSchema } from './entities/hotel.entity';
 import { HotelRoom, HotelRoomSchema } from './entities/hotel-room.entity';
 import { HotelRoomsService } from './hotel-rooms/hotel-rooms.service';
+import { HotelRoomsController } from './hotel-rooms/hotel-rooms.controller';
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { HotelRoomsService } from './hotel-rooms/hotel-rooms.service';
       },
     ]),
   ],
-  controllers: [HotelsController],
+  controllers: [HotelsController, HotelRoomsController],
   providers: [HotelsService, HotelRoomsService],
   // exports: [HotelsService],
 })
