@@ -32,7 +32,8 @@ export class HotelRoomsService implements IHotelRoomService {
   }
 
   findById(id: ID, isEnabled?: true): Promise<HotelRoom> {
-    return this.HotelRoomModel.findOne({ _id: id, isEnabled }).exec();
+    const filter = isEnabled ? { _id: id, isEnabled } : { _id: id };
+    return this.HotelRoomModel.findOne(filter).exec();
   }
 
   search(params: SearchRoomsParams): Promise<HotelRoom[]> {
