@@ -17,10 +17,10 @@ export class HotelRoom {
   @Prop()
   description: string;
 
-  @Prop()
+  @Prop({ default: [] })
   images: string[];
 
-  @Prop({ isRequired: true })
+  @Prop({ isRequired: true, default: true })
   isEnabled: boolean;
 }
 
