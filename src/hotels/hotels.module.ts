@@ -22,6 +22,6 @@ import { HotelRoomsController } from './hotel-rooms/hotel-rooms.controller';
   ],
   controllers: [HotelsController, HotelRoomsController],
   providers: [HotelsService, HotelRoomsService],
-  // exports: [HotelsService],
+  exports: [HotelsService, HotelRoomsService],
 })
 export class HotelsModule {}
