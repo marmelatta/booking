@@ -1,14 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { Message, MessageDocument } from '../entities/message.entity';
 import { ID } from '../../types/types';
-import {
-  SupportRequest,
-  SupportRequestDocument,
-} from '../entities/support-request.entity';
+import { SupportRequest, SupportRequestDocument } from "../entities/support-request.entity";
 import { MarkMessagesAsReadDto } from '../dto/IMarkMessagesAsReadDto';
 import { ICreateSupportRequestDto } from '../dto/ICreateSupportRequestDto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, now } from 'mongoose';
 
 interface ISupportRequestClientService {
   createSupportRequest(data: ICreateSupportRequestDto): Promise<SupportRequest>;
@@ -35,14 +32,14 @@ export class SupportRequestClientService
   }
 
   getUnreadCount(supportRequest: ID): Promise<Message[]> {
-    const messages = this.Message.find({
+    return this.Message.find({
       _id: supportRequest,
       // todo: фильтрануть по типу сотрудника
       readAt: { $ne: null },
     }).exec();
-    return messages;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  markMessagesAsRead(params: MarkMessagesAsReadDto) {}
+  markMessagesAsRead(params: MarkMessagesAsReadDto) {
+    return this.Message.updateMany(params, { readAt: now() }).exec();
+  }
 }
