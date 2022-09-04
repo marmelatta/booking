@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { HotelRoomsService, SearchRoomsParams } from './hotel-rooms.service';
-import { ID } from '../hotels.service';
 import { HotelRoom } from '../entities/hotel-room.entity';
+import { ID } from '../../types/types';
 
 @Controller('hotel-rooms')
 export class HotelRoomsController {

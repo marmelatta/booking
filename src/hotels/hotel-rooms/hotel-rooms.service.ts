@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { HotelRoom, HotelRoomDocument } from '../entities/hotel-room.entity';
-import { ID } from '../hotels.service';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model } from 'mongoose';
+import { ID } from '../../types/types';
 
 export interface SearchRoomsParams {
   limit: number;

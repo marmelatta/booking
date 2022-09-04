@@ -1,4 +1,4 @@
-import { ID } from '../../hotels/hotels.service';
+import { ID } from '../../types/types';
 
 export interface IReservationDto {
   hotel: ID;

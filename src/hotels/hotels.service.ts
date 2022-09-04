@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Hotel, HotelDocument } from './entities/hotel.entity';
-import { Connection, Model, ObjectId } from 'mongoose';
+import { Connection, Model } from 'mongoose';
 import { CreateHotelDto } from './dto/create-hotel-dto.interface';
-
-export type ID = string | ObjectId;
+import { ID } from '../types/types';
 
 interface IHotelService {
   create(data: any): Promise<Hotel>;

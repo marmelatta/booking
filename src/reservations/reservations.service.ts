@@ -4,10 +4,10 @@ import {
   Reservation,
   ReservationDocument,
 } from './entities/reservation.entity';
-import { ID } from '../hotels/hotels.service';
 import { ReservationSearchOptions } from './dto/reservation-search-options.dto';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model } from 'mongoose';
+import { ID } from '../types/types';
 
 interface IReservation {
   addReservation(data: IReservationDto): Promise<Reservation | string>;

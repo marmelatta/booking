@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
-import { HotelsService, ID } from './hotels.service';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { HotelsService } from './hotels.service';
 import { CreateHotelDto } from './dto/create-hotel-dto.interface';
 import { Hotel } from './entities/hotel.entity';
+import { ID } from '../types/types';
 
 @Controller('hotels')
 export class HotelsController {
