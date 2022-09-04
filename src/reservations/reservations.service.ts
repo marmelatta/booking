@@ -10,7 +10,7 @@ import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model } from 'mongoose';
 
 interface IReservation {
-  addReservation(data: IReservationDto): Promise<Reservation>;
+  addReservation(data: IReservationDto): Promise<Reservation | string>;
   removeReservation(id: ID): Promise<ReservationDocument>;
   getReservations(
     filter: ReservationSearchOptions,
@@ -25,9 +25,19 @@ export class ReservationsService implements IReservation {
     @InjectConnection() private connection: Connection,
   ) {}
 
-  addReservation(data: IReservationDto): Promise<Reservation> {
-    // todo: проверка доступен ли номер на заданную дату
-    return Promise.resolve(undefined);
+  async addReservation(data: IReservationDto): Promise<Reservation | string> {
+    const reservations = await this.ReservationModel.find().exec();
+    const isFree = reservations.some(
+      (x) =>
+        !(data.dateStart < x.dateStart && data.dateEnd < x.dateFinish) ||
+        !(data.dateStart > data.dateEnd && data.dateEnd > data.dateEnd),
+    );
+    if (!isFree) {
+      return 'Этот номер уже занят на даты';
+    }
+
+    const reservation = new this.ReservationModel(data);
+    return reservation.save();
   }
 
   getReservations(
