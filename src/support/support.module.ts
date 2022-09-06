@@ -8,6 +8,9 @@ import {
   SupportRequest,
   SupportRequestSchema,
 } from './entities/support-request.entity';
+import { SupportRequestEmployeeController } from './support-request-employee/support-request-employee.controller';
+import { SupportRequestClientController } from './support-request-client/support-request-client.controller';
+import { SupportRequestController } from './support-request/support-request.controller';
 
 @Module({
   imports: [
@@ -26,6 +29,11 @@ import {
     SupportRequestService,
     SupportRequestClientService,
     SupportRequestEmployeeService,
+  ],
+  controllers: [
+    SupportRequestEmployeeController,
+    SupportRequestClientController,
+    SupportRequestController,
   ],
 })
 export class SupportModule {}

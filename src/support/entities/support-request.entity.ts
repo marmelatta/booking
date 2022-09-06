@@ -12,7 +12,6 @@ export class SupportRequest {
   @Prop({
     type: [{ type: mongoose.Schema.Types.ObjectId }],
     ref: 'Message',
-    required: true,
   })
   messages: Message[];
 

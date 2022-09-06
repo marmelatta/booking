@@ -1,11 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { Message, MessageDocument } from '../entities/message.entity';
 import { ID } from '../../types/types';
-import { SupportRequest, SupportRequestDocument } from "../entities/support-request.entity";
+import {
+  SupportRequest,
+  SupportRequestDocument,
+} from '../entities/support-request.entity';
 import { MarkMessagesAsReadDto } from '../dto/IMarkMessagesAsReadDto';
 import { ICreateSupportRequestDto } from '../dto/ICreateSupportRequestDto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, now } from 'mongoose';
+import { ICreateMessageDto } from '../dto/ICreateMessageDto';
 
 interface ISupportRequestClientService {
   createSupportRequest(data: ICreateSupportRequestDto): Promise<SupportRequest>;
@@ -41,5 +45,14 @@ export class SupportRequestClientService
 
   markMessagesAsRead(params: MarkMessagesAsReadDto) {
     return this.Message.updateMany(params, { readAt: now() }).exec();
+  }
+
+  async createMessage(data: ICreateMessageDto) {
+    const message = await new this.Message(data).save();
+    console.log('message', message);
+    return this.SupportRequest.updateOne(
+      { _id: data.supportRequest },
+      { $push: { messages: message } },
+    ).exec();
   }
 }

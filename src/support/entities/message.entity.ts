@@ -16,7 +16,7 @@ export class Message {
   })
   supportRequest: SupportRequest;
 
-  @Prop({ request: true })
+  @Prop()
   sentAt: Date;
 
   @Prop({ request: true })
