@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Message, MessageDocument } from '../entities/message.entity';
 import { ID } from '../../types/types';
 import {
@@ -7,8 +7,8 @@ import {
 } from '../entities/support-request.entity';
 import { MarkMessagesAsReadDto } from '../dto/IMarkMessagesAsReadDto';
 import { ICreateSupportRequestDto } from '../dto/ICreateSupportRequestDto';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model, now } from 'mongoose';
+import { InjectConnection, InjectModel } from '@nestjs/mongoose';
+import { Connection, Model, now } from 'mongoose';
 import { ICreateMessageDto } from '../dto/ICreateMessageDto';
 
 interface ISupportRequestClientService {
@@ -26,6 +26,7 @@ export class SupportRequestClientService
     private SupportRequest: Model<SupportRequestDocument>,
     @InjectModel(Message.name)
     private Message: Model<MessageDocument>,
+    @InjectConnection() private connection: Connection,
   ) {}
 
   createSupportRequest(
@@ -41,6 +42,7 @@ export class SupportRequestClientService
       // todo: фильтрануть по типу сотрудника
       readAt: { $ne: null },
     }).exec();
+    //.populate('User', {type: 'client'})
   }
 
   markMessagesAsRead(params: MarkMessagesAsReadDto) {
@@ -49,10 +51,18 @@ export class SupportRequestClientService
 
   async createMessage(data: ICreateMessageDto) {
     const message = await new this.Message(data).save();
-    console.log('message', message);
-    return this.SupportRequest.updateOne(
-      { _id: data.supportRequest },
-      { $push: { messages: message } },
+    const supportReq = await this.SupportRequest.findById(
+      data.supportRequest,
     ).exec();
+    if (!supportReq) {
+      throw new NotFoundException();
+    }
+    supportReq.messages.push(message);
+    return supportReq.save();
+    /*
+    const message = await new this.Message(data).save();
+    console.log('message', message);
+    return message;
+     */
   }
 }
