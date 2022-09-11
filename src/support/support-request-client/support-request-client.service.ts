@@ -10,6 +10,7 @@ import { ICreateSupportRequestDto } from '../dto/ICreateSupportRequestDto';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model, now } from 'mongoose';
 import { ICreateMessageDto } from '../dto/ICreateMessageDto';
+import { log } from "util";
 
 interface ISupportRequestClientService {
   createSupportRequest(data: ICreateSupportRequestDto): Promise<SupportRequest>;
@@ -64,5 +65,21 @@ export class SupportRequestClientService
     console.log('message', message);
     return message;
      */
+  }
+
+  //helpers
+  async getMessages(data: MarkMessagesAsReadDto) {
+    const { createdBefore, ...a } = data;
+    console.log('createBefore', createdBefore);
+    console.log('remain', a);
+    const t = await this.Message.find().exec();
+    t.map(x => {
+      if (x.createdAt <= new Date(createdBefore)) {
+        console.log('true', x.createdAt);
+      } else {
+        console.log('false', x.createdAt);
+      }
+    });
+    return this.Message.find().exec();
   }
 }

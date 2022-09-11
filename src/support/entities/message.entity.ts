@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose from 'mongoose';
+import mongoose, { now } from "mongoose";
 import { SupportRequest } from './support-request.entity';
 
 export type MessageDocument = Message & Document;
@@ -24,6 +24,9 @@ export class Message {
 
   @Prop()
   readAt: Date;
+
+  @Prop({ default: Date.now() })
+  createdAt: Date;
 }
 
 export const MessageSchema = SchemaFactory.createForClass(Message);
