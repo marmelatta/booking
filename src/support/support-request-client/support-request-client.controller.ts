@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Put } from '@nestjs/common';
 import { SupportRequestClientService } from './support-request-client.service';
 import { ICreateSupportRequestDto } from '../dto/ICreateSupportRequestDto';
 import { ICreateMessageDto } from '../dto/ICreateMessageDto';
@@ -25,8 +25,9 @@ export class SupportRequestClientController {
     return await this.supportRequestClientService.createMessage(data);
   }
 
-  @Post('/mark-messages-as-read')
+  @Put('/mark-messages-as-read')
   async markMessagesAsRead(@Body() data: MarkMessagesAsReadDto) {
-    return await this.supportRequestClientService.markMessagesAsRead(data);
+    return this.supportRequestClientService.markMessagesAsRead(data);
   }
+  // https://wanago.io/2021/09/27/api-nestjs-put-patch-mongodb-mongoose/
 }

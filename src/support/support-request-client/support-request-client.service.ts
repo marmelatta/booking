@@ -10,7 +10,6 @@ import { ICreateSupportRequestDto } from '../dto/ICreateSupportRequestDto';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model, now } from 'mongoose';
 import { ICreateMessageDto } from '../dto/ICreateMessageDto';
-import { log } from "util";
 
 interface ISupportRequestClientService {
   createSupportRequest(data: ICreateSupportRequestDto): Promise<SupportRequest>;
@@ -47,7 +46,14 @@ export class SupportRequestClientService
   }
 
   markMessagesAsRead(params: MarkMessagesAsReadDto) {
-    return this.Message.updateMany(params, { readAt: now() }).exec();
+    const { createdBefore, ...otherParams } = params;
+    return this.Message.updateMany(
+      { ...otherParams, createdAt: { $lt: new Date(createdBefore) } },
+      { readAt: now() },
+      {
+        returnNewDocument: true,
+      },
+    ).find();
   }
 
   async createMessage(data: ICreateMessageDto) {
@@ -72,14 +78,19 @@ export class SupportRequestClientService
     const { createdBefore, ...a } = data;
     console.log('createBefore', createdBefore);
     console.log('remain', a);
-    const t = await this.Message.find().exec();
-    t.map(x => {
+    const t = await this.Message.find({
+      createdAt: { $lt: new Date(createdBefore) },
+    }).exec();
+    t.map((x) => {
+      console.log('-', x.createdAt);
       if (x.createdAt <= new Date(createdBefore)) {
         console.log('true', x.createdAt);
       } else {
         console.log('false', x.createdAt);
       }
     });
-    return this.Message.find().exec();
+    return this.Message.find({
+      createdAt: { $lt: new Date(createdBefore) },
+    }).exec();
   }
 }
