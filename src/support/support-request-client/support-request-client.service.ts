@@ -46,6 +46,7 @@ export class SupportRequestClientService
   }
 
   markMessagesAsRead(params: MarkMessagesAsReadDto) {
+    //todo: отправлены не пользователем
     const { createdBefore, ...otherParams } = params;
     return this.Message.updateMany(
       { ...otherParams, createdAt: { $lt: new Date(createdBefore) } },

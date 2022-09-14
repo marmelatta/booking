@@ -16,7 +16,7 @@ export class SupportRequest {
   })
   messages: Message[];
 
-  @Prop()
+  @Prop({ default: true })
   isActive: boolean;
 }
 
