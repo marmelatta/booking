@@ -37,9 +37,9 @@ export class UsersService implements IUserService {
     const { limit, offset, ...filter } = params;
     return this.UserModel.find({
       $or: [
-        { email: filter.name },
-        { name: filter.name },
-        { contactPhone: filter.contactPhone },
+        { email: '/' + filter.name + '/' },
+        { name: '/' + filter.name + '/' },
+        { contactPhone: '/' + filter.contactPhone + '/' },
       ],
     })
       .skip(offset)
