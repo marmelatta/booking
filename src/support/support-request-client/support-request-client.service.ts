@@ -66,31 +66,5 @@ export class SupportRequestClientService
     }
     supportReq.messages.push(message);
     return supportReq.save();
-    /*
-    const message = await new this.Message(data).save();
-    console.log('message', message);
-    return message;
-     */
-  }
-
-  //helpers
-  async getMessages(data: MarkMessagesAsReadDto) {
-    const { createdBefore, ...a } = data;
-    console.log('createBefore', createdBefore);
-    console.log('remain', a);
-    const t = await this.Message.find({
-      createdAt: { $lt: new Date(createdBefore) },
-    }).exec();
-    t.map((x) => {
-      console.log('-', x.createdAt);
-      if (x.createdAt <= new Date(createdBefore)) {
-        console.log('true', x.createdAt);
-      } else {
-        console.log('false', x.createdAt);
-      }
-    });
-    return this.Message.find({
-      createdAt: { $lt: new Date(createdBefore) },
-    }).exec();
   }
 }

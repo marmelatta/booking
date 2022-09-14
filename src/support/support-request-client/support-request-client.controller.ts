@@ -11,11 +11,6 @@ export class SupportRequestClientController {
   ) {}
 
   @Post()
-  async getMessages(@Body() data: MarkMessagesAsReadDto) {
-    return await this.supportRequestClientService.getMessages(data);
-  }
-
-  @Post()
   async create(@Body() data: ICreateSupportRequestDto) {
     return await this.supportRequestClientService.createSupportRequest(data);
   }
