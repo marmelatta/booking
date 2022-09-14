@@ -35,7 +35,16 @@ export class UsersService implements IUserService {
 
   findAll(params: ISearchUserParams): Promise<User[]> {
     const { limit, offset, ...filter } = params;
-    return this.UserModel.find(filter).skip(offset).limit(limit).exec();
+    return this.UserModel.find({
+      $or: [
+        { email: filter.name },
+        { name: filter.name },
+        { contactPhone: filter.contactPhone },
+      ],
+    })
+      .skip(offset)
+      .limit(limit)
+      .exec();
   }
 
   findByEmail(email: string): Promise<User> {
