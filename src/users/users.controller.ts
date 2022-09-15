@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/CreateUserDto';
 import { ISearchUserParams } from './dto/ISerachUserParams';
@@ -13,8 +13,8 @@ export class UsersController {
     return await this.userService.create(data);
   }
 
-  @Post()
-  async findAll(@Body() params: ISearchUserParams) {
+  @Get()
+  async findAll(@Query() params: ISearchUserParams) {
     return await this.userService.findAll(params);
   }
 
