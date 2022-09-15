@@ -1,7 +1,7 @@
 import { ID } from '../../types/types';
 
 export interface ISendMessageDto {
-  author: string;
+  author: ID;
   supportRequest: ID;
   text: string;
 }

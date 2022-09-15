@@ -1,4 +1,6 @@
+import { ID } from '../../types/types';
+
 export interface ICreateSupportRequestDto {
-  user: string;
+  user: ID;
   text: string;
 }
