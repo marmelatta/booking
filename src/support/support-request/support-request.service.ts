@@ -8,7 +8,7 @@ import {
 } from '../entities/support-request.entity';
 import { IGetChatListParams } from '../dto/IGetChatListParams';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
-import { Connection, Expression, Model } from 'mongoose';
+import { Connection, Model } from 'mongoose';
 
 interface ISupportRequestService {
   findSupportRequests(params: IGetChatListParams): Promise<SupportRequest[]>;

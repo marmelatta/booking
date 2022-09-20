@@ -25,6 +25,8 @@
     "@nestjs/core": "^8.0.0",
     "@nestjs/mongoose": "^9.2.0",
     "@nestjs/platform-express": "^8.0.0",
+    "@nestjs/platform-socket.io": "^8.4.7",
+    "@nestjs/websockets": "^8.4.7",
     "@types/bcrypt": "^5.0.0",
     "bcrypt": "^5.0.1",
     "mongoose": "^6.5.4",
