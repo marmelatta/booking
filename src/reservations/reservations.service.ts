@@ -27,12 +27,14 @@ export class ReservationsService implements IReservation {
 
   async addReservation(data: IReservationDto): Promise<Reservation | string> {
     const reservations = await this.ReservationModel.find().exec();
-    const isFree = reservations.some(
+    const dateStartIso = new Date(data.dateStart);
+    const dateFinishIso = new Date(data.dateFinish);
+    const isReserved = reservations.some(
       (x) =>
-        !(data.dateStart < x.dateStart && data.dateEnd < x.dateFinish) ||
-        !(data.dateStart > data.dateEnd && data.dateEnd > data.dateEnd),
+        (dateStartIso >= x.dateStart && dateStartIso <= x.dateFinish) ||
+        (dateFinishIso >= x.dateStart && dateFinishIso <= x.dateFinish),
     );
-    if (!isFree) {
+    if (isReserved) {
       return 'Этот номер уже занят на даты';
     }
 
@@ -40,12 +42,21 @@ export class ReservationsService implements IReservation {
     return reservation.save();
   }
 
-  getReservations(
+  async getReservations(
     filter: ReservationSearchOptions,
   ): Promise<Array<Reservation>> {
-    const { dateStart, dateEnd, ...otherFilters } = filter;
+    const { dateStart, dateFinish, ...otherFilters } = filter;
     //todo: filter for dates
-    return this.ReservationModel.find({ otherFilters }).exec();
+    const reservations = await this.ReservationModel.find({
+      otherFilters,
+    }).exec();
+    const dateStartIso = new Date(dateStart);
+    const dateFinishIso = new Date(dateFinish);
+    return reservations.filter(
+      (x) =>
+        (dateStartIso >= x.dateStart && dateStartIso <= x.dateFinish) ||
+        (dateFinishIso >= x.dateStart && dateFinishIso <= x.dateFinish),
+    );
   }
 
   removeReservation(id: ID): Promise<ReservationDocument> {

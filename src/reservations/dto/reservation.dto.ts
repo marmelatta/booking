@@ -5,5 +5,5 @@ export interface IReservationDto {
   hotel: ID;
   room: ID;
   dateStart: Date;
-  dateEnd: Date;
+  dateFinish: Date;
 }
