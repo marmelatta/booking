@@ -8,9 +8,12 @@ import { Connection, Model } from 'mongoose';
 import { CreateUserDto } from './dto/CreateUserDto';
 
 interface IUserService {
-  create(data: Partial<User>): Promise<User>;
+  create(data: Partial<CreateUserDto>): Promise<User>;
+
   findById(id: ID): Promise<User>;
+
   findByEmail(email: string): Promise<User>;
+
   findAll(params: ISearchUserParams): Promise<User[]>;
 }
 
@@ -37,9 +40,9 @@ export class UsersService implements IUserService {
     const { limit, offset, ...filter } = params;
     return this.UserModel.find({
       $or: [
-        { email: '/' + filter.name + '/' },
-        { name: '/' + filter.name + '/' },
-        { contactPhone: '/' + filter.contactPhone + '/' },
+        { email: { $regex: filter.email, $options: 'i' } },
+        { name: { $regex: filter.email, $options: 'i' } },
+        { contactPhone: { $regex: filter.email, $options: 'i' } },
       ],
     })
       .skip(offset)
