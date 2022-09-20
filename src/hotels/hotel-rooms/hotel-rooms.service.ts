@@ -37,7 +37,11 @@ export class HotelRoomsService implements IHotelRoomService {
   }
 
   search(params: SearchRoomsParams): Promise<HotelRoom[]> {
-    return this.HotelRoomModel.find({ params }).exec();
+    const { offset, limit, ...otherFilter } = params;
+    return this.HotelRoomModel.find({ otherFilter })
+      .skip(offset)
+      .limit(limit)
+      .exec();
   }
 
   update(id: ID, data: Partial<HotelRoom>): Promise<HotelRoom> {
