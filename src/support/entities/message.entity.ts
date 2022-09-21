@@ -21,7 +21,7 @@ export class Message {
   })
   supportRequest: SupportRequest;
 
-  @Prop()
+  @Prop({ default: Date.now() })
   sentAt: Date;
 
   @Prop({ request: true })

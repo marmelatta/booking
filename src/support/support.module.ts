@@ -11,6 +11,7 @@ import {
 import { SupportRequestEmployeeController } from './support-request-employee/support-request-employee.controller';
 import { SupportRequestClientController } from './support-request-client/support-request-client.controller';
 import { SupportRequestController } from './support-request/support-request.controller';
+import { AppGateway } from './gateway/app.gateway';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { SupportRequestController } from './support-request/support-request.cont
     SupportRequestService,
     SupportRequestClientService,
     SupportRequestEmployeeService,
+    AppGateway,
   ],
   controllers: [
     SupportRequestEmployeeController,
