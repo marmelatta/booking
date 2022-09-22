@@ -50,7 +50,7 @@ export class UsersService implements IUserService {
       .exec();
   }
 
-  findByEmail(email: string): Promise<User> {
+  findByEmail(email: string): Promise<User | undefined> {
     return this.UserModel.findOne({ email }).exec();
   }
 
