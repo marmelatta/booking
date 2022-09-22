@@ -34,16 +34,16 @@ export class SupportRequestEmployeeService
   }
 
   getUnreadCount(supportRequest: ID): Promise<Message[]> {
-    //todo: отправлены пользователем
     return this.Message.find({
       _id: supportRequest,
       readAt: { $ne: null },
-    }).exec();
+    })
+      .populate('User', { role: 'client' })
+      .exec();
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   markMessagesAsRead(params: MarkMessagesAsReadDto) {
-    //todo: отправлены пользователем
     const { createdBefore, ...otherParams } = params;
     return this.Message.updateMany(
       { ...otherParams, createdAt: { $lt: new Date(createdBefore) } },

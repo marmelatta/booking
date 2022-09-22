@@ -39,10 +39,10 @@ export class SupportRequestClientService
   getUnreadCount(supportRequest: ID): Promise<Message[]> {
     return this.Message.find({
       _id: supportRequest,
-      // todo: фильтрануть по типу сотрудника
       readAt: { $ne: null },
-    }).exec();
-    //.populate('User', {type: 'client'})
+    })
+      .populate('User', { role: 'client' })
+      .exec();
   }
 
   markMessagesAsRead(params: MarkMessagesAsReadDto) {

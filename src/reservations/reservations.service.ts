@@ -46,7 +46,6 @@ export class ReservationsService implements IReservation {
     filter: ReservationSearchOptions,
   ): Promise<Array<Reservation>> {
     const { dateStart, dateFinish, ...otherFilters } = filter;
-    //todo: filter for dates
     const reservations = await this.ReservationModel.find({
       otherFilters,
     }).exec();
