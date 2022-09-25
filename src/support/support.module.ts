@@ -8,7 +8,6 @@ import {
   SupportRequest,
   SupportRequestSchema,
 } from './entities/support-request.entity';
-import { SupportRequestEmployeeController } from './support-request-employee/support-request-employee.controller';
 import { SupportRequestClientController } from './support-request-client/support-request-client.controller';
 import { SupportRequestController } from './support-request/support-request.controller';
 import { AppGateway } from './gateway/app.gateway';
@@ -32,10 +31,6 @@ import { AppGateway } from './gateway/app.gateway';
     SupportRequestEmployeeService,
     AppGateway,
   ],
-  controllers: [
-    SupportRequestEmployeeController,
-    SupportRequestClientController,
-    SupportRequestController,
-  ],
+  controllers: [SupportRequestClientController, SupportRequestController],
 })
 export class SupportModule {}
