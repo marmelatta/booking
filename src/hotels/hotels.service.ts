@@ -30,4 +30,12 @@ export class HotelsService implements IHotelService {
   search(params: Pick<Hotel, 'title'>): Promise<Hotel[]> {
     return this.HotelModel.find({ params }).exec();
   }
+
+  findAll(): Promise<Hotel[]> {
+    return this.HotelModel.find().exec();
+  }
+
+  update(id: ID, data: Partial<Hotel>): Promise<Hotel> {
+    return this.HotelModel.findOneAndUpdate({ _id: id }, { ...data }).exec();
+  }
 }

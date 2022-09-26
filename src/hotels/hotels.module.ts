@@ -7,6 +7,7 @@ import { HotelRoom, HotelRoomSchema } from './entities/hotel-room.entity';
 import { HotelRoomsService } from './hotel-rooms/hotel-rooms.service';
 import { HotelRoomsController } from './hotel-rooms/hotel-rooms.controller';
 import { CommonController } from './common/common.controller';
+import { AdminController } from './admin/admin.controller';
 
 @Module({
   imports: [
@@ -21,7 +22,12 @@ import { CommonController } from './common/common.controller';
       },
     ]),
   ],
-  controllers: [HotelsController, HotelRoomsController, CommonController],
+  controllers: [
+    HotelsController,
+    HotelRoomsController,
+    CommonController,
+    AdminController,
+  ],
   providers: [HotelsService, HotelRoomsService],
   exports: [HotelsService, HotelRoomsService],
 })
