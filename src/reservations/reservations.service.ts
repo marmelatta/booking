@@ -58,6 +58,12 @@ export class ReservationsService implements IReservation {
     );
   }
 
+  async getUserReservations(userId: ID): Promise<Reservation[]> {
+    return await this.ReservationModel.find({
+      user: userId,
+    }).exec();
+  }
+
   removeReservation(id: ID): Promise<ReservationDocument> {
     return this.ReservationModel.findByIdAndDelete({ _id: id }).exec();
   }
