@@ -4,6 +4,8 @@ import { Hotel, HotelDocument } from './entities/hotel.entity';
 import { Connection, Model } from 'mongoose';
 import { CreateHotelDto } from './dto/create-hotel-dto.interface';
 import { ID } from '../types/types';
+import { IHotelFilterDto } from './dto/IHotelFilterDto';
+import { IHotelUpdateDto } from './dto/IHotelUpdate.dto';
 
 interface IHotelService {
   create(data: any): Promise<Hotel>;
@@ -31,11 +33,14 @@ export class HotelsService implements IHotelService {
     return this.HotelModel.find({ params }).exec();
   }
 
-  findAll(): Promise<Hotel[]> {
-    return this.HotelModel.find().exec();
+  findAll(params: IHotelFilterDto): Promise<Hotel[]> {
+    return this.HotelModel.find()
+      .skip(params.offset)
+      .limit(params.limit)
+      .exec();
   }
 
-  update(id: ID, data: Partial<Hotel>): Promise<Hotel> {
+  update(id: ID, data: IHotelUpdateDto): Promise<Hotel> {
     return this.HotelModel.findOneAndUpdate({ _id: id }, { ...data }).exec();
   }
 }

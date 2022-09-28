@@ -3,6 +3,7 @@ import { HotelRoom, HotelRoomDocument } from '../entities/hotel-room.entity';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model, now } from 'mongoose';
 import { ID } from '../../types/types';
+import { IHotelRoomUpdateDto } from '../dto/IHotelRoomUpdate.dto';
 
 export interface SearchRoomsParams {
   limit: number;
@@ -15,7 +16,7 @@ interface IHotelRoomService {
   create(data: Partial<HotelRoom>): Promise<HotelRoom>;
   findById(id: ID, isEnabled?: true): Promise<HotelRoom>;
   search(params: SearchRoomsParams): Promise<HotelRoom[]>;
-  update(id: ID, data: Partial<HotelRoom>): Promise<HotelRoom>;
+  update(id: ID, data: IHotelRoomUpdateDto): Promise<HotelRoom>;
 }
 
 @Injectable()
@@ -44,7 +45,7 @@ export class HotelRoomsService implements IHotelRoomService {
       .exec();
   }
 
-  update(id: ID, data: Partial<HotelRoom>): Promise<HotelRoom> {
+  update(id: ID, data: IHotelRoomUpdateDto): Promise<HotelRoom> {
     return this.HotelRoomModel.findOneAndUpdate(
       { _id: id },
       { ...data, updatedAt: now() },
