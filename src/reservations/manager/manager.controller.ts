@@ -13,14 +13,14 @@ export class ManagerController {
 
   @HasRoles(Role.Manager)
   @UseGuards(JwtAuthGuard, RoleGuard)
-  @Get(':id')
+  @Get('reservations/:id')
   async findById(@Param('id') id: ID): Promise<Reservation[]> {
     return this.reservationsService.getUserReservations(id);
   }
 
   @HasRoles(Role.Manager)
   @UseGuards(JwtAuthGuard, RoleGuard)
-  @Delete(':userId/:id')
+  @Delete('reservations/:userId/:id')
   async removeReservation(@Param() userId: ID, @Param() id: ID) {
     return await this.reservationsService.removeReservation(id);
   }
